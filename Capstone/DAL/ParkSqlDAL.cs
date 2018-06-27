@@ -17,6 +17,7 @@ namespace Capstone.DAL
 			connectionString = dbConnectionString;
 		}
 
+
 		public IList<Park> GetAllParks()
 		{
 			IList<Park> output = new List<Park>();
@@ -90,6 +91,7 @@ namespace Capstone.DAL
 			{
 				Console.WriteLine(ex.Message);
 			}
+
 		}
 	}
 }

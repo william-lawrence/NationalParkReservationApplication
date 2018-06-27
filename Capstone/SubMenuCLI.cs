@@ -37,8 +37,13 @@ namespace Capstone
 
 				switch (command)
 				{
-					case Command_ViewCampgrounds:
+					case Command_ViewCampgrounds: 
 						campground.GetAllCampgrounds(parkId);
+						break;
+
+					case Command_SearchForReservation:
+						BookingSubMenuCLI submenu = new BookingSubMenuCLI();
+						submenu.DisplayBookingSubMenu();
 						break;
 				}
 			}

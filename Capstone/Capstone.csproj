@@ -44,9 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookingSubMenuCLI.cs" />
     <Compile Include="DAL\CampgroundSqlDAL.cs" />
     <Compile Include="DAL\ParkSqlDAL.cs" />
+    <Compile Include="DAL\ReservationSqlDAL.cs" />
+    <Compile Include="DAL\SiteSqlDAL.cs" />
     <Compile Include="MainMenuCLI.cs" />
+    <Compile Include="Models\Site.cs" />
     <Compile Include="Models\Park.cs" />
     <Compile Include="Models\Campground.cs" />
     <Compile Include="Models\Reservation.cs" />

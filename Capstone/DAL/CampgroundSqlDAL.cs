@@ -38,6 +38,7 @@ namespace Capstone.DAL
 					{
 						Campground campground = new Campground();
 
+						campground.ParkID = Convert.ToInt32(reader["park_id"]);
 						campground.CampgroundID = Convert.ToInt32(reader["campground_id"]);
 						campground.Name = Convert.ToString(reader["name"]);
 						campground.OpeningMonth = Convert.ToInt32(reader["open_from_mm"]);
@@ -51,7 +52,7 @@ namespace Capstone.DAL
 					{
 						if (campground.ParkID == parkID)
 						{
-							Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee}");
+							Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
 						}
 					}
 				}

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Capstone.DAL;
 
 namespace Capstone.Models
 {
@@ -22,6 +24,7 @@ namespace Capstone.Models
 
 		public string Description { get; set; }
 
+		public List<Campground> Campground { get; set; }
 
 	}
 }
