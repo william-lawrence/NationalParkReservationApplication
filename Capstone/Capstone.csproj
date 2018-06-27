@@ -47,6 +47,8 @@
     <Compile Include="DAL\ParkSqlDAL.cs" />
     <Compile Include="MainMenuCLI.cs" />
     <Compile Include="Models\Park.cs" />
+    <Compile Include="Models\Campground.cs" />
+    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
