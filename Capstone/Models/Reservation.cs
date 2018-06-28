@@ -20,9 +20,21 @@ namespace Capstone.Models
 
         public DateTime CreateDate { get; set; }
 
-        public DateTime CreateReservation()
+        public Reservation(int siteId, string name, DateTime startDate, DateTime endDate)
         {
-            return DateTime.Now;
+            this.SiteID = siteId;
+            this.Name = name;
+            this.StartDate = startDate;
+            this.EndDate = endDate;
+            this.CreateDate = DateTime.Now;
+        }
+        
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Reservation()
+        {
+
         }
     }
 

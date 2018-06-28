@@ -22,6 +22,12 @@ namespace Capstone
             this.End = end;
         }
 
+        public void CreateReservation(int siteNumber, string name)
+        {
+            Reservation reservation = new Reservation(siteNumber, name, this.Start, this.End);
+
+        }
+
         public List<Site> CheckAvailabilty()
         {
             DateRange requestedRange = new DateRange(this.Start, this.End);

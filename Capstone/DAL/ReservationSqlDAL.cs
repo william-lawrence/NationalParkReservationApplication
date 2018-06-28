@@ -53,5 +53,27 @@ namespace Capstone.DAL
                 }
             }
         }
+
+        public int CreateNewReservation(Reservation reservation)
+        {
+            int reservationId = 0;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("INSERT INTO reservation(site_id, name, from_date, to_date, create_date) VALUES(@SiteID, @Name, @StartDate, @EndDate, @CreateDate);", conn);
+                    cmd.Parameters.AddWithValue("@SiteID", reservation.SiteID);
+                    cmd.Parameters.AddWithValue("@Name", reservation.Name);
+                    cmd.Parameters.AddWithValue("@StartDate", reservation.StartDate);
+                }
+            }
+            catch
+            {
+
+            }
+
+            return reservationId;
+        }
     }
 }
