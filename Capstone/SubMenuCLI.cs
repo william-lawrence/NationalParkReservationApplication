@@ -42,7 +42,7 @@ namespace Capstone
                         break;
 
                     case Command_SearchForReservation:
-                        BookingSubMenuCLI submenu = new BookingSubMenuCLI();
+                        BookingSubMenuCLI submenu = new BookingSubMenuCLI(this.Park);
                         submenu.DisplayBookingSubMenu();
                         break;
                 }
