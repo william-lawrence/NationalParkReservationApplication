@@ -111,11 +111,13 @@ namespace Capstone
             SiteSqlDAL siteDAL = new SiteSqlDAL(DatabaseConnection);
             siteDAL.GetSiteInfo(park);
 
-            ReservationSqlDAL reservationDAL = new ReservationSqlDAL(DatabaseConnection);
-            foreach (var campground in park.Campgrounds)
-            {
-                reservationDAL.GetReservationInfo(campground);
-            }
+            //shh. ;)
+
+            //ReservationSqlDAL reservationDAL = new ReservationSqlDAL(DatabaseConnection);
+            //foreach (var campground in park.Campgrounds)
+            //{
+            //    reservationDAL.GetReservationInfo(campground);
+            //}
         }
     }
 }

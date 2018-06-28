@@ -9,6 +9,8 @@ namespace Capstone
 {
 	public class BookingSubMenuCLI
 	{
+        const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
+
         public Park Park { get; set; }
 
         public BookingSubMenuCLI(Park park)
@@ -31,7 +33,7 @@ namespace Capstone
 
             decimal totalCost = FindTotalCost(Park, campgroundID, startDate, endDate);
 
-            ReservationHandler reservationHandler = new ReservationHandler(Park, campgroundID, startDate, endDate);
+            ReservationHandler reservationHandler = new ReservationHandler(Park, campgroundID, startDate, endDate, DatabaseConnection);
 
             List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty());
 
@@ -39,6 +41,16 @@ namespace Capstone
             {
                 Console.WriteLine($"{availableSite.SiteID} {availableSite.MaxOccupancy} {ToYesOrNo(availableSite.Accessible)} {availableSite.MaxRVLength} {ToYesOrNo(availableSite.Utilities)} {totalCost.ToString("C2")}");
             }
+
+            Console.WriteLine("Which site should be reserved (enter 0 to cancel)? ");
+            int siteNumber = int.Parse(Console.ReadLine());
+            Console.WriteLine("What name should the reservation be made under? ");
+            string name = Console.ReadLine();
+
+            int confirmationId = reservationHandler.CreateReservation(siteNumber, name);
+
+            Console.WriteLine($"The reservation has been made and the confirmation id is {confirmationId}.");
+
         }
 
         private decimal FindTotalCost(Park park, int campgroundID, DateTime startDate, DateTime endDate)
