@@ -27,7 +27,7 @@ namespace Capstone.DAL
                     {
                         conn.Open();
 
-                        SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE site_number = @siteID;", conn);
+                        SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE site_id = @siteID;", conn);
                         cmd.Parameters.AddWithValue("@siteID", site.SiteID);
 
                         SqlDataReader reader = cmd.ExecuteReader();

@@ -49,6 +49,8 @@
     <Compile Include="DAL\ParkSqlDAL.cs" />
     <Compile Include="DAL\ReservationSqlDAL.cs" />
     <Compile Include="DAL\SiteSqlDAL.cs" />
+    <Compile Include="DateRange.cs" />
+    <Compile Include="IRange.cs" />
     <Compile Include="MainMenuCLI.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Models\Park.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReservationHandler.cs" />
     <Compile Include="SubMenuCLI.cs" />
   </ItemGroup>
   <ItemGroup>

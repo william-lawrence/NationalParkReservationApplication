@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,13 @@ namespace Capstone
 {
 	public class BookingSubMenuCLI
 	{
+        public Park Park { get; set; }
+
+        public BookingSubMenuCLI(Park park)
+        {
+            this.Park = park;
+        }
+
 		public void DisplayBookingSubMenu()
 		{
 			Console.WriteLine();
@@ -19,6 +27,15 @@ namespace Capstone
 
 			Console.WriteLine("What is the departure date? mm/dd/yyyy  ");
             DateTime endDate = DateTime.Parse(Console.ReadLine());
+
+            ReservationHandler reservationHandler = new ReservationHandler(Park, campground, startDate, endDate);
+
+            List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty());
+
+            foreach (var availableSite in availableSites)
+            {
+                Console.WriteLine(availableSite.SiteID);
+            }
 		}
 	}
 }

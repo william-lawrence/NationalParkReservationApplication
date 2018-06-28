@@ -9,7 +9,7 @@ namespace Capstone
     public class DateRange : IRange<DateTime>
     {
         /// <summary>
-        /// The begining of the date range
+        /// The beginning of the date range
         /// </summary>
         public DateTime Start { get; private set; }
 
