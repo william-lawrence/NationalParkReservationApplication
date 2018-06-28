@@ -43,7 +43,7 @@ namespace Capstone.DAL
                                 EndDate = Convert.ToDateTime(reader["to_date"])
                             };
 
-                            site.Reservations.Add(reservation);
+                            //site.Reservations.Add(reservation);
                         }
                     }
                 }

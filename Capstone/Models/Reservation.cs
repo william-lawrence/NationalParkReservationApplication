@@ -26,9 +26,9 @@ namespace Capstone.Models
             this.Name = name;
             this.StartDate = startDate;
             this.EndDate = endDate;
-            this.CreateDate = DateTime.Now;
+            //this.CreateDate = DateTime.Now;
         }
-        
+
         /// <summary>
         /// Default constructor
         /// </summary>

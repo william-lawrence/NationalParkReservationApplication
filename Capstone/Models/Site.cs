@@ -22,11 +22,11 @@ namespace Capstone.Models
 
 		public bool Utilities { get; set; }
 
-        public List<Reservation> Reservations { get; set; }
+        //public List<Reservation> Reservations { get; set; }
 
-        public Site()
-        {
-            this.Reservations = new List<Reservation>();
-        }
+        //public Site()
+        //{
+        //    this.Reservations = new List<Reservation>();
+        //}
 	}
 }
