@@ -18,9 +18,7 @@ namespace Capstone
 			DateTime startDate = DateTime.Parse(Console.ReadLine());
 
 			Console.WriteLine("What is the departure date? mm/dd/yyyy  ");
-			DateTime endDate = DateTime.Parse(Console.ReadLine());
-
-			
+            DateTime endDate = DateTime.Parse(Console.ReadLine());
 		}
 	}
 }

@@ -10,47 +10,50 @@ namespace Capstone.DAL
 {
 	public class SiteSqlDAL
 	{
-		private string connectionString;
+		private string ConnectionString;
 
 		public SiteSqlDAL(string dbConnectionString)
 		{
-			connectionString = dbConnectionString;
+			this.ConnectionString = dbConnectionString;
 		}
 
-		public List<Site> GetAllSites()
+		public void GetSiteInfo(Park park)
 		{
-			List<Site> sites = new List<Site>();
+            foreach (var campground in park.Campgrounds)
+            {
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(ConnectionString))
+                    {
+                        conn.Open();
 
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(connectionString))
-				{
-					conn.Open();
+                        SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE campground_id = @id;", conn);
+                        cmd.Parameters.AddWithValue("@ID", campground.CampgroundID);
 
-					SqlCommand cmd = new SqlCommand("SELECT * FROM site;", conn);
+                        SqlDataReader reader = cmd.ExecuteReader();
 
-					SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Site site = new Site
+                            {
+                                SiteID = Convert.ToInt32(reader["site_id"]),
+                                CampgroundID = Convert.ToInt32(reader["campground_id"]),
+                                SiteNumber = Convert.ToInt32(reader["site_number"]),
+                                MaxOccupancy = Convert.ToInt32(reader["max_occupancy"]),
+                                Accessible = Convert.ToBoolean(reader["accessible"]),
+                                MaxRVLength = Convert.ToInt32(reader["max_rv_length"]),
+                                Utilities = Convert.ToBoolean(reader["utilities"])
+                            };
 
-					while (reader.Read())
-					{
-						Site site = new Site();
-
-						site.SiteID = Convert.ToInt32(reader["site_id"]);
-						site.CampgroundID = Convert.ToInt32(reader["campground_id"]);
-						site.SiteNumber = Convert.ToInt32(reader["site_number"]);
-						site.MaxOccupancy = Convert.ToInt32(reader["max_occupancy"]);
-						site.Accessible = Convert.ToBoolean(reader["accessible"]);
-						site.MaxRVLength = Convert.ToInt32(reader["max_rv_length"]);
-						site.Utilities = Convert.ToBoolean(reader["utilities"]);
-					}
-				}
-			}
-			catch (SqlException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
-			return sites;
+                            campground.Sites.Add(site);
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 		}
 	}
 }

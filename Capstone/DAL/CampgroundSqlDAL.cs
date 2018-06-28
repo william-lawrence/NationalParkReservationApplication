@@ -8,61 +8,55 @@ using Capstone.Models;
 
 namespace Capstone.DAL
 {
-	public class CampgroundSqlDAL
-	{
-		private string connectionString;
+    public class CampgroundSqlDAL
+    {
+        private string ConnectionString;
 
-		public CampgroundSqlDAL(string dbConnectionString)
-		{
-			connectionString = dbConnectionString;
-		}
+        public CampgroundSqlDAL(string dbConnectionString)
+        {
+            this.ConnectionString = dbConnectionString;
+        }
 
-		public IList<Campground> GetAllCampgrounds(int parkID)
-		{
-			IList<Campground> output = new List<Campground>();
+        /// <summary>
+        /// Gets all the campgrounds and stores them as a list in the park object if they are in that park.
+        /// </summary>
+        /// <param name="parkID"></param>
+        /// <returns></returns>
+		public void GetCampgroundInfo(Park park)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
 
-			int thisParkID = parkID;
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE park_id = @ID;", conn);
+                    cmd.Parameters.AddWithValue("ID", park.Id);
 
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(connectionString))
-				{
-					conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-					SqlCommand cmd = new SqlCommand("SELECT * FROM campground;", conn);
-					cmd.Parameters.AddWithValue("@thisPark_id", thisParkID);
+                    // Reading through all the rows and collecting each campgrounds information in the park.
+                    while (reader.Read())
+                    {
+                        Campground campground = new Campground
+                        {
+                            ParkID = Convert.ToInt32(reader["park_id"]),
+                            CampgroundID = Convert.ToInt32(reader["campground_id"]),
+                            Name = Convert.ToString(reader["name"]),
+                            OpeningMonth = Convert.ToInt32(reader["open_from_mm"]),
+                            ClosingMonth = Convert.ToInt32(reader["open_to_mm"]),
+                            DailyFee = Convert.ToDecimal(reader["daily_fee"])
+                        };
 
-					SqlDataReader reader = cmd.ExecuteReader();
-
-					while (reader.Read())
-					{
-						Campground campground = new Campground();
-
-						campground.ParkID = Convert.ToInt32(reader["park_id"]);
-						campground.CampgroundID = Convert.ToInt32(reader["campground_id"]);
-						campground.Name = Convert.ToString(reader["name"]);
-						campground.OpeningMonth = Convert.ToInt32(reader["open_from_mm"]);
-						campground.ClosingMonth = Convert.ToInt32(reader["open_to_mm"]);
-						campground.DailyFee = Convert.ToDecimal(reader["daily_fee"]);
-
-						output.Add(campground);
-					}
-
-					foreach (var campground in output)
-					{
-						if (campground.ParkID == parkID)
-						{
-							Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
-						}
-					}
-				}
-			}
-			catch (SqlException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
-			return output;
-		}
-	}
+                        // Adding the campground to the list of campgrounds in the park object.
+                        park.Campgrounds.Add(campground);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
 }

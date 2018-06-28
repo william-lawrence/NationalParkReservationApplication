@@ -8,45 +8,56 @@ using Capstone.Models;
 
 namespace Capstone
 {
-	public class SubMenuCLI
-	{
-		//public int ParkID { get; set; }
+    public class SubMenuCLI
+    {
+        public Park Park { get; set; }
 
-		const string Command_ViewCampgrounds = "1";
-		const string Command_SearchForReservation = "2";
-		const string Command_Return = "3";
-		const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
+        const string Command_ViewCampgrounds = "1";
+        const string Command_SearchForReservation = "2";
+        const string Command_Return = "3";
+        const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
 
-		//public SubMenuCLI(int id)
-		//{
-		//	this.ParkID = id;
-		//}
+        public SubMenuCLI(Park park)
+        {
+            this.Park = park;
+        }
 
-		public void DisplaySubMenuCLI(int parkId)
-		{
-			while (true)
-			{
-				Console.WriteLine();
-				Console.WriteLine("Select a Command");
-				Console.WriteLine("1) View Campgrounds");
-				Console.WriteLine("2) Search for Reservation");
-				Console.WriteLine("3) Return to Previous Screen");
-				string command = Console.ReadLine();
+        public void DisplaySubMenuCLI()
+        {
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Select a Command");
+                Console.WriteLine("1) View Campgrounds");
+                Console.WriteLine("2) Search for Reservation");
+                Console.WriteLine("3) Return to Previous Screen");
+                string command = Console.ReadLine();
 
-				CampgroundSqlDAL campground = new CampgroundSqlDAL(DatabaseConnection);
+                CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(DatabaseConnection);
 
-				switch (command)
-				{
-					case Command_ViewCampgrounds: 
-						campground.GetAllCampgrounds(parkId);
-						break;
+                switch (command)
+                {
+                    case Command_ViewCampgrounds:
+                        DisplayAllCampGrounds(Park);
+                        break;
 
-					case Command_SearchForReservation:
-						BookingSubMenuCLI submenu = new BookingSubMenuCLI();
-						submenu.DisplayBookingSubMenu();
-						break;
-				}
-			}
-		}
-	}
+                    case Command_SearchForReservation:
+                        BookingSubMenuCLI submenu = new BookingSubMenuCLI();
+                        submenu.DisplayBookingSubMenu();
+                        break;
+                }
+            }
+        }
+
+        private static void DisplayAllCampGrounds(Park park)
+        {
+            Console.WriteLine($"Name Open Close Daily Fee");
+
+            foreach (Campground campground in park.Campgrounds)
+            {
+                Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
+            }
+
+        }
+    }
 }

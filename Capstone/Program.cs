@@ -11,8 +11,8 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
-			MainMenuCLI mainMenu = new MainMenuCLI();
-			mainMenu.DisplayCLI();
+            MainMenuCLI mainMenu = new MainMenuCLI();
+            mainMenu.DisplayCLI();
         }
     }
 }

@@ -8,49 +8,50 @@ using Capstone.Models;
 
 namespace Capstone.DAL
 {
-	public class ReservationSqlDAL
-	{
-		private string connectionString;
+    public class ReservationSqlDAL
+    {
+        private string ConnectionString;
 
-		public ReservationSqlDAL(string dbConnectionString)
-		{
-			connectionString = dbConnectionString;
-		}
+        public ReservationSqlDAL(string dbConnectionString)
+        {
+            this.ConnectionString = dbConnectionString;
+        }
 
-		public List<Reservation> GetAllReservations(int campgroundID)
-		{
-			List<Reservation> reservations = new List<Reservation>();
+        public void GetReservationInfo(Campground campground)
+        {
+            foreach (var site in campground.Sites)
+            {
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(ConnectionString))
+                    {
+                        conn.Open();
 
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(connectionString))
-				{
-					conn.Open();
+                        SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE site_number = @siteID;", conn);
+                        cmd.Parameters.AddWithValue("@siteID", site.SiteID);
 
-					SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE id = @campgroundID;", conn);
-					cmd.Parameters.AddWithValue("@campgroundID", campgroundID);
+                        SqlDataReader reader = cmd.ExecuteReader();
 
-					SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Reservation reservation = new Reservation
+                            {
+                                ReservationID = Convert.ToInt32(reader["reservation_id"]),
+                                SiteID = Convert.ToInt32(reader["site_id"]),
+                                Name = Convert.ToString(reader["name"]),
+                                StartDate = Convert.ToDateTime(reader["from_date"]),
+                                EndDate = Convert.ToDateTime(reader["to_date"])
+                            };
 
-					while (reader.Read())
-					{
-						Reservation reservation = new Reservation();
-
-						reservation.ReservationID = Convert.ToInt32(reader["reservation_id"]);
-						reservation.SiteID = Convert.ToInt32(reader["site_id"]);
-						reservation.Name = Convert.ToString(reader["name"]);
-						reservation.StartDate = Convert.ToDateTime(reader["from_date"]);
-						reservation.EndDate = Convert.ToDateTime(reader["to_date"]);
-					}
-				}
-
-			}
-			catch (SqlException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
-			return reservations;
-		}
-	}
+                            site.Reservations.Add(reservation);
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+    }
 }

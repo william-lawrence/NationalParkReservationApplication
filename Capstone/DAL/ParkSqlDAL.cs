@@ -8,90 +8,84 @@ using Capstone.Models;
 
 namespace Capstone.DAL
 {
-	public class ParkSqlDAL
-	{
-		private string connectionString;
+    public class ParkSqlDAL
+    {
+        private string ConnectionString;
 
-		public ParkSqlDAL(string dbConnectionString)
-		{
-			connectionString = dbConnectionString;
-		}
+        public ParkSqlDAL(string dbConnectionString)
+        {
+            this.ConnectionString = dbConnectionString;
+        }
 
 
-		public IList<Park> GetAllParks()
-		{
-			IList<Park> output = new List<Park>();
+        public IList<Park> GetAllParks()
+        {
+            IList<Park> output = new List<Park>();
 
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(connectionString))
-				{
-					conn.Open();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
 
-					SqlCommand cmd = new SqlCommand("SELECT * FROM park;", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM park;", conn);
 
-					SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-					while (reader.Read())
-					{
-						Park park = new Park();
+                    while (reader.Read())
+                    {
+                        Park park = new Park
+                        {
+                            Id = Convert.ToInt32(reader["park_id"]),
+                            Name = Convert.ToString(reader["name"])
+                        };
 
-						park.Id = Convert.ToInt32(reader["park_id"]);
-						park.Name = Convert.ToString(reader["name"]);
+                        output.Add(park);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-						output.Add(park);
-					}
-				}
-			}
-			catch (SqlException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+            return output;
+        }
 
-			return output;
-		}
+        /// <summary>
+        /// Gets a the information for a given park from the database and stores it in a park object.
+        /// </summary>
+        /// <param name="park">The ID of the park that you want to retrieve the information for.</param>
+		public void GetParkInfo(Park park)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
 
-		public void DisplayParkInfo(string parkName)
-		{
-			try
-			{
-				using (SqlConnection conn = new SqlConnection(connectionString))
-				{
-					conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @id;", conn);
+                    cmd.Parameters.AddWithValue("@id", park.Id);
 
-					SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE name = @parkName", conn);
-					cmd.Parameters.AddWithValue("@parkName", parkName);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-					SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        park.Name = Convert.ToString(reader["name"]);
+                        park.Location = Convert.ToString(reader["location"]);
+                        park.EstDate = Convert.ToDateTime(reader["establish_date"]);
+                        park.Area = Convert.ToInt32(reader["area"]);
+                        park.Visitors = Convert.ToInt32(reader["visitors"]);
+                        park.Description = Convert.ToString(reader["description"]);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-					while (reader.Read())
-					{
-						Park park = new Park();
 
-						park.Name = Convert.ToString(reader["name"]);
-						park.Location = Convert.ToString(reader["location"]);
-						park.EstDate = Convert.ToDateTime(reader["establish_date"]);
-						park.Area = Convert.ToInt32(reader["area"]);
-						park.Visitors = Convert.ToInt32(reader["visitors"]);
-						park.Description = Convert.ToString(reader["description"]);
-
-						Console.Clear();
-						Console.WriteLine(park.Name);
-						Console.WriteLine();
-						Console.WriteLine($"Location: {park.Location}");
-						Console.WriteLine($"Established: {park.EstDate.ToString("MM/dd/yyyy")}");
-						Console.WriteLine($"Area: {park.Area.ToString()}");
-						Console.WriteLine($"Annual Visitors: {park.Visitors.ToString()}");
-						Console.WriteLine();
-						Console.WriteLine(park.Description);
-					}
-				}
-			}
-			catch (SqlException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
-		}
-	}
+        }
+    }
 }
