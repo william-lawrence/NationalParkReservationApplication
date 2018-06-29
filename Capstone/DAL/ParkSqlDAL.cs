@@ -18,9 +18,9 @@ namespace Capstone.DAL
         }
 
 
-        public IList<Park> GetAllParks()
+        public List<Park> GetAllParks()
         {
-            IList<Park> output = new List<Park>();
+            List<Park> output = new List<Park>();
 
             try
             {

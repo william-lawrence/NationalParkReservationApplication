@@ -11,9 +11,6 @@ namespace Capstone
 {
     public class MainMenuCLI
     {
-        const string Command_ViewAcadia = "1";
-        const string Command_ViewArches = "2";
-        const string Command_ViewCuyahogaNationalValley = "3";
         const string Command_Quit = "Q";
         const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
 
@@ -24,59 +21,71 @@ namespace Capstone
                 Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine("Select a Park for Further Details");
-                DisplayAllParks();
-                Console.WriteLine("Q) Quit");
-                string command = Console.ReadLine();
+                List <Park> parks = DisplayAllParks();
+
+				Console.WriteLine("Q) Quit");
+				//string selectedPark = Console.ReadLine();
+				string userInput = Console.ReadLine().ToLower();
                 ParkSqlDAL parkDAL = new ParkSqlDAL(DatabaseConnection);
 
-                // Each of menu items go through the following flow for the selected park:
-                // 1. Instantiate a new park object.
-                // 2. Get all the infomation for that park from the database throught the DAL.
-                // 3. Display the inforamtion for the park.
-                // 4. Call and Display the Submenu.
-                switch (command.ToUpper())
-                {
-                    case Command_ViewAcadia:
-                        Park acadia = new Park(1);
-                        GetAllInfo(acadia);
-                        DisplayParkInfo(acadia);
-                        SubMenuCLI acadiaSubMenu = new SubMenuCLI(acadia);
-                        acadiaSubMenu.DisplaySubMenuCLI();
-                        break;
+				// Each of menu items go through the following flow for the selected park:
+				// 1. Instantiate a new park object.
+				// 2. Get all the infomation for that park from the database throught the DAL.
+				// 3. Display the information for the park.
+				// 4. Call and Display the Submenu.
+				try
+				{
+					switch (userInput.ToUpper())
+					{
+						case Command_Quit:
+							System.Environment.Exit(0);
+							break;
 
-                    case Command_ViewArches:
-                        Park arches = new Park(2);
-                        GetAllInfo(arches);
-                        DisplayParkInfo(arches);
-                        SubMenuCLI archesSubMenu = new SubMenuCLI(arches);
-                        archesSubMenu.DisplaySubMenuCLI();
-                        break;
-
-                    case Command_ViewCuyahogaNationalValley:
-                        Park cuyahogaValley = new Park(3);
-                        GetAllInfo(cuyahogaValley);
-                        SubMenuCLI cuyahogaSubMenu = new SubMenuCLI(cuyahogaValley);
-                        cuyahogaSubMenu.DisplaySubMenuCLI();
-                        break;
-
-                    case Command_Quit:
-                        System.Environment.Exit(0);
-                        break;
-
-					default:
-						Console.WriteLine();
-						Console.WriteLine("Sorry, that's not a valid choice!");
-						System.Threading.Thread.Sleep(1500);
-						break;
-                }
-            }
+						default:
+							if (!CheckIfParkExists(int.Parse(userInput), parks))
+							{
+								Console.WriteLine("Sorry, that park doesn't exist!");
+								System.Threading.Thread.Sleep(1500);
+								break;
+							}
+							
+							Park park = new Park(int.Parse(userInput));
+							GetAllInfo(park);
+							DisplayParkInfo(park);
+							SubMenuCLI SubMenu = new SubMenuCLI(park);
+							SubMenu.DisplaySubMenuCLI();
+							break;
+					}
+				}
+				catch (Exception)
+				{
+					Console.WriteLine("That is not a valid input.");
+					System.Threading.Thread.Sleep(1500);
+				}
+			}
         }
 
-        /// <summary>
-        /// Displays the information for a given park.
-        /// </summary>
-        /// <param name="park">The park object that you want to display get information for.</param>
-        private void DisplayParkInfo(Park park)
+		private bool CheckIfParkExists(int userInput, List<Park> parks)
+		{
+			bool parkExists = false;
+
+			foreach (Park park in parks)
+			{
+				if (userInput == park.Id)
+				{
+					parkExists = true;
+					break;
+				}
+			}
+
+			return parkExists;
+		}
+
+		/// <summary>
+		/// Displays the information for a given park.
+		/// </summary>
+		/// <param name="park">The park object that you want to display get information for.</param>
+		private void DisplayParkInfo(Park park)
         {
 			Console.Clear();
 			Console.WriteLine();
@@ -92,15 +101,17 @@ namespace Capstone
         /// <summary>
         /// Displays all the parks that are in the database.
         /// </summary>
-        private void DisplayAllParks()
+        private List<Park> DisplayAllParks()
         {
             ParkSqlDAL dal = new ParkSqlDAL(DatabaseConnection);
-            IList<Park> parks = dal.GetAllParks();
+            List<Park> parks = dal.GetAllParks();
 
             foreach (Park park in parks)
             {
                 Console.WriteLine($"{park.Id.ToString()}) {park.Name}");
             }
+
+			return parks;
         }
 
         /// <summary>
@@ -118,14 +129,6 @@ namespace Capstone
 
             SiteSqlDAL siteDAL = new SiteSqlDAL(DatabaseConnection);
             siteDAL.GetSiteInfo(park);
-
-            //shh. ;)
-
-            //ReservationSqlDAL reservationDAL = new ReservationSqlDAL(DatabaseConnection);
-            //foreach (var campground in park.Campgrounds)
-            //{
-            //    reservationDAL.GetReservationInfo(campground);
-            //}
         }
     }
 }
