@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Capstone
 {
-    public class ReservationHandler
+    public class ReservationHandlerDAL
     {
         private string ConnectionString;
 
@@ -17,7 +17,7 @@ namespace Capstone
         public int CampgroundID { get; set; }
         public Park Park { get; set; }
 
-        public ReservationHandler(Park park, int campgroundID, DateTime start, DateTime end, string dbConnectionString)
+        public ReservationHandlerDAL(Park park, int campgroundID, DateTime start, DateTime end, string dbConnectionString)
         {
             this.Park = park;
             this.CampgroundID = campgroundID;
@@ -55,9 +55,9 @@ namespace Capstone
             return confirmationId;
         }
 
-        public List<Site> CheckAvailabilty()
+        public List<Site> CheckAvailabilty(DateTime start, DateTime end)
         {
-            DateRange requestedRange = new DateRange(this.Start, this.End);
+            DateRange requestedRange = new DateRange(start, end);
 
             List<Site> availableSites = new List<Site>();
 

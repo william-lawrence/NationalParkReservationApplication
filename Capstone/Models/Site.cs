@@ -21,12 +21,5 @@ namespace Capstone.Models
 		public int MaxRVLength { get; set; }
 
 		public bool Utilities { get; set; }
-
-        //public List<Reservation> Reservations { get; set; }
-
-        //public Site()
-        //{
-        //    this.Reservations = new List<Reservation>();
-        //}
 	}
 }

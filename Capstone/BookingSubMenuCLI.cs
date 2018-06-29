@@ -37,9 +37,9 @@ namespace Capstone
 
 				decimal totalCost = FindTotalCost(Park, campgroundID, startDate, endDate);
 
-				ReservationHandler reservationHandler = new ReservationHandler(Park, campgroundID, startDate, endDate, DatabaseConnection);
+				ReservationHandlerDAL reservationHandler = new ReservationHandlerDAL(Park, campgroundID, startDate, endDate, DatabaseConnection);
 
-				List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty());
+				List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty(startDate, endDate));
 
 				Console.WriteLine("Results Matchin Your Search Criteria");
 				Console.Write("Site No.".PadRight(10));
@@ -61,7 +61,7 @@ namespace Capstone
 			}
 		}
 
-		private static void CreatingReservation(int siteNumber, ReservationHandler reservationHandler)
+		private static void CreatingReservation(int siteNumber, ReservationHandlerDAL reservationHandler)
 		{
 			Console.WriteLine("What name should the reservation be made under? ");
 			string name = Console.ReadLine();
