@@ -31,52 +31,7 @@ namespace Capstone
 
 			while (running)
 			{
-				while (searching)
-				{
-					Console.Clear();
-					Console.WriteLine();
-					DisplayAllCampGrounds(Park);
-					Console.WriteLine();
-					Console.Write("Which campground (enter 0 to cancel)?  ");
-					campgroundID = int.Parse(Console.ReadLine());
-
-					if (campgroundID == 0)
-					{
-						running = false;
-						break;
-					}
-					else if (!CheckIfCampgroundInPark(Park, campgroundID))
-					{
-						Console.WriteLine("Sorry, that campground is not a valid choice!");
-						System.Threading.Thread.Sleep(1500);
-					}
-					else
-					{
-						try
-						{
-							Console.Write("What is the arrival date? mm/dd/yyyy  ");
-							startDate = DateTime.Parse(Console.ReadLine());
-
-							Console.Write("What is the departure date? mm/dd/yyyy  ");
-							endDate = DateTime.Parse(Console.ReadLine());
-
-							if ((endDate - startDate).TotalDays < 0)
-							{
-								Console.WriteLine("Sorry, time doesn't work that way!");
-								System.Threading.Thread.Sleep(1500);
-							}
-							else
-							{
-								searching = false;
-							}
-						}
-						catch (Exception)
-						{
-							Console.WriteLine("Sorry that is not a valid date format.");
-							System.Threading.Thread.Sleep(1500);
-						}
-					}
-				}
+				VerifyingReservation(ref running, ref searching, ref campgroundID, ref startDate, ref endDate);
 
 				Console.Clear();
 
@@ -91,37 +46,97 @@ namespace Capstone
 					Console.WriteLine($"{availableSite.SiteID} {availableSite.MaxOccupancy} {ToYesOrNo(availableSite.Accessible)} {availableSite.MaxRVLength} {ToYesOrNo(availableSite.Utilities)} {totalCost.ToString("C2")}");
 				}
 
-				while (reserving)
-				{
-					Console.WriteLine("Which site should be reserved (enter 0 to cancel)? ");
-					siteNumber = int.Parse(Console.ReadLine());
-
-					if (siteNumber == 0)
-					{
-						break;
-					}
-					else if (!CheckIfCampsiteAvailable(availableSites, siteNumber))
-					{
-						Console.WriteLine("Sorry, that campsite is not a valid choice!");
-					}
-					else if (CheckIfCampsiteAvailable(availableSites, siteNumber))
-					{
-						reserving = false;
-					}
-
-				}
-				Console.WriteLine("What name should the reservation be made under? ");
-				string name = Console.ReadLine();
-
-				int confirmationId = reservationHandler.CreateReservation(siteNumber, name);
-
-				Console.WriteLine($"The reservation has been made and the confirmation id is {confirmationId}.");
-				System.Threading.Thread.Sleep(3000);
-				Console.Clear();
+				VerifyingCampsite(ref reserving, ref siteNumber, availableSites);
+				CreatingReservation(siteNumber, reservationHandler);
 
 				running = false;
 			}
-        }
+		}
+
+		private static void CreatingReservation(int siteNumber, ReservationHandler reservationHandler)
+		{
+			Console.WriteLine("What name should the reservation be made under? ");
+			string name = Console.ReadLine();
+
+			int confirmationId = reservationHandler.CreateReservation(siteNumber, name);
+
+			Console.WriteLine($"The reservation has been made and the confirmation id is {confirmationId}.");
+			System.Threading.Thread.Sleep(3000);
+			Console.Clear();
+		}
+
+		private void VerifyingCampsite(ref bool reserving, ref int siteNumber, List<Site> availableSites)
+		{
+			while (reserving)
+			{
+				Console.WriteLine("Which site should be reserved (enter 0 to cancel)? ");
+				siteNumber = int.Parse(Console.ReadLine());
+
+				if (siteNumber == 0)
+				{
+					break;
+				}
+				else if (!CheckIfCampsiteAvailable(availableSites, siteNumber))
+				{
+					Console.WriteLine("Sorry, that campsite is not a valid choice!");
+				}
+				else if (CheckIfCampsiteAvailable(availableSites, siteNumber))
+				{
+					reserving = false;
+				}
+
+			}
+		}
+
+		private void VerifyingReservation(ref bool running, ref bool searching, ref int campgroundID, ref DateTime startDate, ref DateTime endDate)
+		{
+			while (searching)
+			{
+				Console.Clear();
+				Console.WriteLine();
+				DisplayAllCampGrounds(Park);
+				Console.WriteLine();
+				Console.Write("Which campground (enter 0 to cancel)?  ");
+				campgroundID = int.Parse(Console.ReadLine());
+
+				if (campgroundID == 0)
+				{
+					running = false;
+					break;
+				}
+				else if (!CheckIfCampgroundInPark(Park, campgroundID))
+				{
+					Console.WriteLine("Sorry, that campground is not a valid choice!");
+					System.Threading.Thread.Sleep(1500);
+				}
+				else
+				{
+					try
+					{
+						Console.Write("What is the arrival date? mm/dd/yyyy  ");
+						startDate = DateTime.Parse(Console.ReadLine());
+
+						Console.Write("What is the departure date? mm/dd/yyyy  ");
+						endDate = DateTime.Parse(Console.ReadLine());
+
+						if ((endDate - startDate).TotalDays < 0)
+						{
+							Console.WriteLine("Sorry, time doesn't work that way!");
+							System.Threading.Thread.Sleep(1500);
+						}
+						else
+						{
+							searching = false;
+						}
+					}
+					catch (Exception)
+					{
+						Console.WriteLine("Sorry that is not a valid date format.");
+						System.Threading.Thread.Sleep(1500);
+					}
+				}
+			}
+		}
 
 		private bool CheckIfCampsiteAvailable(List<Site> availableSites, int siteNumber)
 		{
