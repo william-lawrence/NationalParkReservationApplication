@@ -68,13 +68,22 @@ namespace Capstone
 
 		private static void DisplayAllCampGrounds(Park park)
         {
-            Console.WriteLine($"Name Open Close Daily Fee");
+			Console.Write("Name".PadLeft(3).PadRight(20));
+			Console.Write("Open".PadRight(10));
+			Console.Write("Close".PadRight(10));
+			Console.WriteLine("Daily Fee");
 
             foreach (Campground campground in park.Campgrounds)
             {
-                Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
+                Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {ToMonthName(campground.OpeningMonth)} {ToMonthName(campground.ClosingMonth)} {campground.DailyFee.ToString("C2")}");
             }
 
         }
-    }
+
+		private static string ToMonthName(int month)
+		{
+			DateTime date = new DateTime(2018, month, 1);
+			return date.ToString("MMMM");
+		}
+	}
 }

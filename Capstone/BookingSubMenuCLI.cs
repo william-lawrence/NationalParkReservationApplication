@@ -41,9 +41,17 @@ namespace Capstone
 
 				List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty());
 
+				Console.WriteLine("Results Matchin Your Search Criteria");
+				Console.Write("Site No.".PadRight(10));
+				Console.Write("Max Occup.".PadRight(15));
+				Console.Write("Accesible?".PadRight(17));
+				Console.Write("Max RV Length".PadRight(17));
+				Console.Write("Utilities?".PadRight(10));
+				Console.WriteLine("Cost".PadRight(10));
+
 				foreach (var availableSite in availableSites)
 				{
-					Console.WriteLine($"{availableSite.SiteID} {availableSite.MaxOccupancy} {ToYesOrNo(availableSite.Accessible)} {availableSite.MaxRVLength} {ToYesOrNo(availableSite.Utilities)} {totalCost.ToString("C2")}");
+					Console.WriteLine($"{availableSite.SiteID.ToString().PadRight(9)} {availableSite.MaxOccupancy.ToString().PadRight(14)} {ToYesOrNo(availableSite.Accessible).ToString().PadRight(16)} {availableSite.MaxRVLength.ToString().PadRight(16)} {ToYesOrNo(availableSite.Utilities).ToString().PadRight(8)} {totalCost.ToString("C2")}");
 				}
 
 				VerifyingCampsite(ref reserving, ref siteNumber, availableSites);
@@ -69,7 +77,7 @@ namespace Capstone
 		{
 			while (reserving)
 			{
-				Console.WriteLine("Which site should be reserved (enter 0 to cancel)? ");
+				Console.Write("Which site should be reserved (enter 0 to cancel)? ");
 				siteNumber = int.Parse(Console.ReadLine());
 
 				if (siteNumber == 0)
