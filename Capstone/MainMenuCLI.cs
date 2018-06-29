@@ -62,6 +62,12 @@ namespace Capstone
                     case Command_Quit:
                         System.Environment.Exit(0);
                         break;
+
+					default:
+						Console.WriteLine();
+						Console.WriteLine("Sorry, that's not a valid choice!");
+						System.Threading.Thread.Sleep(1500);
+						break;
                 }
             }
         }
@@ -72,11 +78,13 @@ namespace Capstone
         /// <param name="park">The park object that you want to display get information for.</param>
         private void DisplayParkInfo(Park park)
         {
+			Console.Clear();
+			Console.WriteLine();
             Console.WriteLine($"{park.Name}");
-            Console.WriteLine($"Loactaion: {park.Location}");
+            Console.WriteLine($"Location: {park.Location}");
             Console.WriteLine($"Established: {park.EstDate.ToString("MM/dd/yyyy")}");
-            Console.WriteLine($"Area: {park.Area} sq km");
-            Console.WriteLine($"Annual Visitors: {park.Visitors}");
+            Console.WriteLine($"Area: {park.Area.ToString("N0")} sq km");
+            Console.WriteLine($"Annual Visitors: {park.Visitors.ToString("N0")}");
             Console.WriteLine();
             Console.WriteLine(park.Description);
         }

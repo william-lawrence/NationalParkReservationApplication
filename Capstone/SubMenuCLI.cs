@@ -15,6 +15,7 @@ namespace Capstone
         const string Command_ViewCampgrounds = "1";
         const string Command_SearchForReservation = "2";
         const string Command_Return = "3";
+		bool running = true;
         const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
 
         public SubMenuCLI(Park park)
@@ -24,32 +25,48 @@ namespace Capstone
 
         public void DisplaySubMenuCLI()
         {
-            while (true)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Select a Command");
-                Console.WriteLine("1) View Campgrounds");
-                Console.WriteLine("2) Search for Reservation");
-                Console.WriteLine("3) Return to Previous Screen");
-                string command = Console.ReadLine();
+            while (running)
+			{
+				Console.WriteLine();
+				PrintCommands();
+				string command = Console.ReadLine();
 
-                CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(DatabaseConnection);
+				CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(DatabaseConnection);
 
-                switch (command)
-                {
-                    case Command_ViewCampgrounds:
-                        DisplayAllCampGrounds(Park);
-                        break;
+				switch (command)
+				{
+					case Command_ViewCampgrounds:
+						Console.Clear();
+						DisplayAllCampGrounds(Park);
+						break;
 
-                    case Command_SearchForReservation:
-                        BookingSubMenuCLI submenu = new BookingSubMenuCLI(this.Park);
-                        submenu.DisplayBookingSubMenu();
-                        break;
-                }
-            }
-        }
+					case Command_SearchForReservation:
+						BookingSubMenuCLI submenu = new BookingSubMenuCLI(this.Park);
+						submenu.DisplayBookingSubMenu();
+						break;
 
-        private static void DisplayAllCampGrounds(Park park)
+					case Command_Return:
+						running = false;
+						break;
+
+					default:
+						Console.WriteLine();
+						Console.WriteLine("Sorry, that's not a valid choice!");
+						System.Threading.Thread.Sleep(1500);
+						break;
+				}
+			}
+		}
+
+		private static void PrintCommands()
+		{
+			Console.WriteLine("Select a Command");
+			Console.WriteLine("1) View Campgrounds");
+			Console.WriteLine("2) Search for Reservation");
+			Console.WriteLine("3) Return to Previous Screen");
+		}
+
+		private static void DisplayAllCampGrounds(Park park)
         {
             Console.WriteLine($"Name Open Close Daily Fee");
 

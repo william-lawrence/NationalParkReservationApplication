@@ -70,8 +70,6 @@ namespace Capstone
                     selectedCampground = campground;
                 }
             }
-
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
@@ -107,17 +105,6 @@ namespace Capstone
                 Console.WriteLine(ex.Message);
             }
 
-                //foreach (var reservation in campsite.Reservations)
-                //{
-                //    DateTime reservationsStartDate = reservation.StartDate;
-                //    DateTime reservationEndDate = reservation.EndDate;
-                //    DateRange reservationRange = new DateRange(reservationsStartDate, reservationEndDate);
-
-                //    if (!(reservationRange.Includes(requestedRange)))
-                //    {
-                //        availableSites.Add(campsite);
-                //    }
-                
             return availableSites;
         }
     }
