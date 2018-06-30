@@ -47,12 +47,17 @@ namespace Capstone
 				Console.Write("Max Occup.".PadRight(15));
 				Console.Write("Accesible?".PadRight(17));
 				Console.Write("Max RV Length".PadRight(17));
-				Console.Write("Utilities?".PadRight(10));
+				Console.Write("Utilities?".PadRight(12));
 				Console.WriteLine("Cost".PadRight(10));
 
 				foreach (var availableSite in availableSites)
 				{
-					Console.WriteLine($"{availableSite.SiteID.ToString().PadRight(9)} {availableSite.MaxOccupancy.ToString().PadRight(14)} {ToYesOrNo(availableSite.Accessible).ToString().PadRight(16)} {availableSite.MaxRVLength.ToString().PadRight(16)} {ToYesOrNo(availableSite.Utilities).ToString().PadRight(8)} {totalCost.ToString("C2")}");
+					Console.WriteLine($"{availableSite.SiteID.ToString().PadRight(9)} " +
+						$"{availableSite.MaxOccupancy.ToString().PadRight(14)} " +
+						$"{ToYesOrNo(availableSite.Accessible).ToString().PadRight(16)} " +
+						$"{ZeroToNA(availableSite.MaxRVLength).ToString().PadRight(16)} " +
+						$"{ToYesOrNo(availableSite.Utilities).ToString().PadRight(11)} " +
+						$"{totalCost.ToString("C2")}");
 				}
 
 				VerifyingCampsite(ref reserving, ref siteNumber, availableSites);
@@ -146,15 +151,22 @@ namespace Capstone
 
 						Console.Write("What is the departure date? mm/dd/yyyy  ");
 						endDate = DateTime.Parse(Console.ReadLine());
-
-						if ((endDate - startDate).TotalDays < 0)
+						if (startDate >= DateTime.Now)
 						{
-							Console.WriteLine("Sorry, time doesn't work that way!");
-							System.Threading.Thread.Sleep(1500);
+							if ((endDate - startDate).TotalDays < 0)
+							{
+								Console.WriteLine("Sorry, time doesn't work that way!");
+								System.Threading.Thread.Sleep(1500);
+							}
+							else
+							{
+								searching = false;
+							}
 						}
 						else
 						{
-							searching = false;
+							Console.WriteLine("You can't arrive before today!");
+							System.Threading.Thread.Sleep(1500);
 						}
 					}
 					catch (Exception)
@@ -242,19 +254,65 @@ namespace Capstone
             return value ? "Yes" : "No";
         }
 
+		/// <summary>
+		/// Converts an int to a string, changes 0 to N/A
+		/// </summary>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public string ZeroToNA(int length)
+		{
+			string stringLength = "";
+
+			if (length == 0)
+			{
+				stringLength = "N/A";
+			}
+			else
+			{
+				stringLength = length.ToString();
+			}
+
+			return stringLength;
+		}
+
         /// <summary>
         /// Displays all the campgrounds in a given park.
         /// </summary>
         /// <param name="park"></param>
 		private static void DisplayAllCampGrounds(Park park)
 		{
-			Console.WriteLine($"Name Open Close Daily Fee");
+			Console.Write("Name".PadLeft(7).PadRight(26));
+			Console.Write("Open".PadLeft(6));
+			Console.Write("Close".PadLeft(11));
+			Console.WriteLine("Daily Fee".PadLeft(18));
 
 			foreach (Campground campground in park.Campgrounds)
 			{
-				Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
+				Console.WriteLine("#{0,-2}{1,-25}{2,-10}{3,-10}{4,10}",
+					campground.CampgroundID,
+					campground.Name,
+					ToMonthName(campground.OpeningMonth),
+					ToMonthName(campground.ClosingMonth),
+					campground.DailyFee.ToString("C2"));
 			}
+			//Console.WriteLine($"Name Open Close Daily Fee");
 
+			//foreach (Campground campground in park.Campgrounds)
+			//{
+			//	Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {campground.OpeningMonth} {campground.ClosingMonth} {campground.DailyFee.ToString("C2")}");
+			//}
+
+		}
+
+		/// <summary>
+		/// Converts the numerical reprentation of a month to the string name 1 = "January" and so on.
+		/// </summary>
+		/// <param name="month">The numerical representation of the mom</param>
+		/// <returns></returns>
+		private static string ToMonthName(int month)
+		{
+			DateTime date = new DateTime(2018, month, 1);
+			return date.ToString("MMMM");
 		}
 	}
 }

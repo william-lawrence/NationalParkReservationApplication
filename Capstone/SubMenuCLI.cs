@@ -73,16 +73,25 @@ namespace Capstone
 			Console.WriteLine("3) Return to Previous Screen");
 		}
 
+		/// <summary>
+		/// Displays all campgrounds
+		/// </summary>
+		/// <param name="park"></param>
 		private static void DisplayAllCampGrounds(Park park)
         {
-			Console.Write("Name".PadLeft(3).PadRight(20));
-			Console.Write("Open".PadRight(10));
-			Console.Write("Close".PadRight(10));
-			Console.WriteLine("Daily Fee");
+			Console.Write("Name".PadLeft(7).PadRight(26));
+			Console.Write("Open".PadLeft(6));
+			Console.Write("Close".PadLeft(11));
+			Console.WriteLine("Daily Fee".PadLeft(18));
 
             foreach (Campground campground in park.Campgrounds)
             {
-                Console.WriteLine($"#{campground.CampgroundID} {campground.Name} {ToMonthName(campground.OpeningMonth)} {ToMonthName(campground.ClosingMonth)} {campground.DailyFee.ToString("C2")}");
+				Console.WriteLine("#{0,-2}{1,-25}{2,-10}{3,-10}{4,10}",
+					campground.CampgroundID,
+					campground.Name,
+					ToMonthName(campground.OpeningMonth),
+					ToMonthName(campground.ClosingMonth),
+					campground.DailyFee.ToString("C2"));
             }
 
         }

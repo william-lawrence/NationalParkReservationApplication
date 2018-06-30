@@ -33,7 +33,7 @@ namespace Capstone
 
                 // Each of menu items go through the following flow for the selected park:
                 // 1. Instantiate a new park object.
-                // 2. Get all the infomation for that park from the database throught the DAL.
+                // 2. Get all the infomation for that park from the database through the DAL.
                 // 3. Display the information for the park.
                 // 4. Call and Display the Submenu.
                 try
@@ -85,24 +85,24 @@ namespace Capstone
         }
 
         /// <summary>
-        /// Displays the information for a given park and stores it in a list that.
+        /// Displays the information for a given park and stores it in a list.
         /// </summary>
         /// <param name="park">The park object that you want to display get information for.</param>
         private void DisplayParkInfo(Park park)
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine($"{park.Name}");
-            Console.WriteLine($"Location: {park.Location}");
-            Console.WriteLine($"Established: {park.EstDate.ToString("MM/dd/yyyy")}");
-            Console.WriteLine($"Area: {park.Area.ToString("N0")} sq km");
-            Console.WriteLine($"Annual Visitors: {park.Visitors.ToString("N0")}");
+            Console.WriteLine($"{park.Name} National Park");
+            Console.WriteLine($"Location: {park.Location.PadLeft(12)}");
+            Console.WriteLine($"Established: {park.EstDate.ToString("MM/dd/yyyy").PadLeft(14)}");
+            Console.WriteLine($"Area: {park.Area.ToString("N0").PadLeft(17)} sq km");
+            Console.WriteLine($"Annual Visitors: {park.Visitors.ToString("N0").PadLeft(8)}");
             Console.WriteLine();
             Console.WriteLine(park.Description);
         }
 
         /// <summary>
-        /// Displays all the parks that are in the database and storees them in a list.
+        /// Displays all the parks that are in the database and stores them in a list.
         /// </summary>
         private List<Park> DisplayAllParks()
         {
