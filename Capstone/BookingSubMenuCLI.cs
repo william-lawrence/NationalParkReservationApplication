@@ -9,6 +9,7 @@ namespace Capstone
 {
 	public class BookingSubMenuCLI
 	{
+        //connection string for the nation park database. This may need to be chnaged depending on the machine that is running it.
         const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
 
         public Park Park { get; set; }
@@ -61,6 +62,11 @@ namespace Capstone
 			}
 		}
 
+        /// <summary>
+        /// Creates the reservation.
+        /// </summary>
+        /// <param name="siteNumber">The number of the site to be reserved.</param>
+        /// <param name="reservationHandler">The DAL that is interfacing with the national park database to make the reservation.</param>
 		private static void CreatingReservation(int siteNumber, ReservationHandlerDAL reservationHandler)
 		{
 			Console.WriteLine("What name should the reservation be made under? ");
@@ -73,6 +79,12 @@ namespace Capstone
 			Console.Clear();
 		}
 
+        /// <summary>
+        /// The menu where the reservation is made.
+        /// </summary>
+        /// <param name="reserving">The bool that represents if the menu is running.</param>
+        /// <param name="siteNumber">The number of the sight to be reseved.</param>
+        /// <param name="availableSites">The list of sites that are available to be reserved.</param>
 		private void VerifyingCampsite(ref bool reserving, ref int siteNumber, List<Site> availableSites)
 		{
 			while (reserving)
@@ -96,6 +108,14 @@ namespace Capstone
 			}
 		}
 
+        /// <summary>
+        /// the overall process for the reservation making process. 
+        /// </summary>
+        /// <param name="running">The bool representing if the booking menu cli is running.</param>
+        /// <param name="searching">The bool representing if the user is in the process of searching for a park.</param>
+        /// <param name="campgroundID">The id of the campground where the reservation is being made.</param>
+        /// <param name="startDate">The date when the reservation begin.</param>
+        /// <param name="endDate">The date when the reservation ends.</param>
 		private void VerifyingReservation(ref bool running, ref bool searching, ref int campgroundID, ref DateTime startDate, ref DateTime endDate)
 		{
 			while (searching)
@@ -146,6 +166,12 @@ namespace Capstone
 			}
 		}
 
+        /// <summary>
+        /// Checks if a selected site selected is a valid.
+        /// </summary>
+        /// <param name="availableSites">The list of available sites.</param>
+        /// <param name="siteNumber">The number of the site selected.</param>
+        /// <returns></returns>
 		private bool CheckIfCampsiteAvailable(List<Site> availableSites, int siteNumber)
 		{
 			bool validSite = false;
@@ -160,7 +186,13 @@ namespace Capstone
 			}
 			return validSite;
 		}
-
+        
+        /// <summary>
+        /// Determines if the campground ID is in the selected park.
+        /// </summary>
+        /// <param name="park">The park that the user is trying to make the reservation in.</param>
+        /// <param name="campgroundId">The campground where the person is trying to make the reservation.</param>
+        /// <returns></returns>
 		private bool CheckIfCampgroundInPark(Park park, int campgroundId)
 		{
 			bool validCampground = false;
@@ -176,6 +208,14 @@ namespace Capstone
 			return validCampground;
 		}
 
+        /// <summary>
+        /// Determines the cost to stay at a given park for a given number of days. 
+        /// </summary>
+        /// <param name="park">The park where the camppsite is that the customer is choosin to stay at.</param>
+        /// <param name="campgroundID">The id of the campground in the national park database.</param>
+        /// <param name="startDate">The start date of the reservation.</param>
+        /// <param name="endDate">The end date of the reservation.</param>
+        /// <returns></returns>
 		private decimal FindTotalCost(Park park, int campgroundID, DateTime startDate, DateTime endDate)
         {
             decimal totalCost = 0;
@@ -192,11 +232,20 @@ namespace Capstone
             return totalCost;
         }
 
+        /// <summary>
+        /// Converts a bool to yes or no.
+        /// </summary>
+        /// <param name="value">true = yes, false = no. </param>
+        /// <returns></returns>
         public string ToYesOrNo (bool value)
         {
             return value ? "Yes" : "No";
         }
 
+        /// <summary>
+        /// Displays all the campgrounds in a given park.
+        /// </summary>
+        /// <param name="park"></param>
 		private static void DisplayAllCampGrounds(Park park)
 		{
 			Console.WriteLine($"Name Open Close Daily Fee");

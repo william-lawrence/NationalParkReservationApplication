@@ -16,6 +16,8 @@ namespace Capstone
         const string Command_SearchForReservation = "2";
         const string Command_Return = "3";
 		bool running = true;
+
+        //connection string for the nation park database. This may need to be chnaged depending on the machine that is running it.
         const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
 
         public SubMenuCLI(Park park)
@@ -23,8 +25,12 @@ namespace Capstone
             this.Park = park;
         }
 
+        /// <summary>
+        /// Displays the menu after a park has been selected. 
+        /// </summary>
         public void DisplaySubMenuCLI()
         {
+            //The menu is "running till they are done with that menu"
             while (running)
 			{
 				Console.WriteLine();
@@ -58,6 +64,7 @@ namespace Capstone
 			}
 		}
 
+      
 		private static void PrintCommands()
 		{
 			Console.WriteLine("Select a Command");
@@ -79,7 +86,12 @@ namespace Capstone
             }
 
         }
-
+        
+        /// <summary>
+        /// Converts the numerical reprentation of a month to the string name 1 = "January" and so on.
+        /// </summary>
+        /// <param name="month">The numerical representation of the mom</param>
+        /// <returns></returns>
 		private static string ToMonthName(int month)
 		{
 			DateTime date = new DateTime(2018, month, 1);
