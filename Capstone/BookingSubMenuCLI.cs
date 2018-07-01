@@ -42,7 +42,7 @@ namespace Capstone
 
 				List<Site> availableSites = new List<Site>(reservationHandler.CheckAvailabilty(startDate, endDate));
 
-				Console.WriteLine("Results Matchin Your Search Criteria");
+				Console.WriteLine("Results Matching Your Search Criteria");
 				Console.Write("Site No.".PadRight(10));
 				Console.Write("Max Occup.".PadRight(15));
 				Console.Write("Accesible?".PadRight(17));
@@ -63,7 +63,8 @@ namespace Capstone
 				VerifyingCampsite(ref reserving, ref siteNumber, availableSites);
 				CreatingReservation(siteNumber, reservationHandler);
 
-				running = false;
+				MainMenuCLI mainMenu = new MainMenuCLI();
+				mainMenu.DisplayCLI();
 			}
 		}
 
@@ -76,6 +77,12 @@ namespace Capstone
 		{
 			Console.WriteLine("What name should the reservation be made under? ");
 			string name = Console.ReadLine();
+
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				Console.WriteLine("Sorry, your name must consist of 1 or more letters!");
+				CreatingReservation(siteNumber, reservationHandler);
+			}
 
 			int confirmationId = reservationHandler.CreateReservation(siteNumber, name);
 
