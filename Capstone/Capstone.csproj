@@ -49,7 +49,6 @@
     <Compile Include="DAL\ParkSqlDAL.cs" />
     <Compile Include="DAL\ReservationSqlDAL.cs" />
     <Compile Include="DAL\SiteSqlDAL.cs" />
-    <Compile Include="DateRange.cs" />
     <Compile Include="IRange.cs" />
     <Compile Include="MainMenuCLI.cs" />
     <Compile Include="Models\Site.cs" />
