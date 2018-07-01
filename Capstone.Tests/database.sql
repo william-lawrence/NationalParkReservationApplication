@@ -9,8 +9,8 @@ INSERT INTO park (park_id, name, location, establish_date, area, visitors, descr
 SET IDENTITY_INSERT park OFF;
 
 SET IDENTITY_INSERT campground ON;
-INSERT INTO campground (campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee) VALUES (1, 1, 'Test Campground', 1, 12, 1);
-INSERT INTO campground (campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee) VALUES (2, 2, 'Test Campground 2', 1, 12, 1);
+INSERT INTO campground (campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee) VALUES (1, 1, 'Test Campground', 1, 12, 25.00);
+INSERT INTO campground (campground_id, park_id, name, open_from_mm, open_to_mm, daily_fee) VALUES (2, 2, 'Test Campground 2', 1, 12, 25.00);
 SET IDENTITY_INSERT campground OFF;
 
 SET IDENTITY_INSERT site ON;

@@ -57,6 +57,8 @@
     <Compile Include="SiteSqlDALTests.cs" />
     <Compile Include="ReservationSqlDALTests.cs" />
     <Compile Include="ReservationHandlerDALTests.cs" />
+    <Compile Include="ToYesOrNoTests.cs" />
+    <Compile Include="ZeroToNATests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
