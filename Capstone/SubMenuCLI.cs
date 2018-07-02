@@ -32,38 +32,37 @@ namespace Capstone
         {
             //The menu is "running till they are done with that menu"
             while (running)
-			{
-				Console.WriteLine();
-				PrintCommands();
-				string command = Console.ReadLine();
+            {
+                Console.WriteLine();
+                PrintCommands();
+                string command = Console.ReadLine();
 
-				CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(DatabaseConnection);
+                CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(DatabaseConnection);
 
-				switch (command)
-				{
-					case Command_ViewCampgrounds:
-						Console.Clear();
-						DisplayAllCampGrounds(Park);
-						break;
+                switch (command)
+                {
+                    case Command_ViewCampgrounds:
+                        Console.Clear();
+                        DisplayAllCampGrounds(Park);
+                        break;
 
-					case Command_SearchForReservation:
-						BookingSubMenuCLI submenu = new BookingSubMenuCLI(this.Park);
-						submenu.DisplayBookingSubMenu();
-						break;
+                    case Command_SearchForReservation:
+                        BookingSubMenuCLI submenu = new BookingSubMenuCLI(this.Park);
+                        submenu.DisplayBookingSubMenu();
+                        break;
 
-					case Command_Return:
-						running = false;
-						break;
+                    case Command_Return:
+                        running = false;
+                        break;
 
-					default:
-						Console.WriteLine();
-						Console.WriteLine("Sorry, that's not a valid choice!");
-						System.Threading.Thread.Sleep(1500);
-						break;
-				}
-			}
-		}
-
+                    default:
+                        Console.WriteLine();
+                        Console.WriteLine("Sorry, that's not a valid choice!");
+                        System.Threading.Thread.Sleep(1500);
+                        break;
+                }
+            }
+        }
       
 		private static void PrintCommands()
 		{

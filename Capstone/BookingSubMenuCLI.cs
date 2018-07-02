@@ -29,7 +29,6 @@ namespace Capstone
 			DateTime startDate = new DateTime();
 			DateTime endDate = new DateTime();
 
-
 			while (running)
 			{
 				VerifyingReservation(ref running, ref searching, ref campgroundID, ref startDate, ref endDate);
