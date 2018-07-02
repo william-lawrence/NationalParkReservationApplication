@@ -15,7 +15,7 @@ namespace Capstone
         const string Command_ViewCampgrounds = "1";
         const string Command_SearchForReservation = "2";
         const string Command_Return = "3";
-		bool running = true;
+        bool running = true;
 
         //connection string for the nation park database. This may need to be chnaged depending on the machine that is running it.
         const string DatabaseConnection = @"Data Source=.\SQLEXPRESS;Initial Catalog=Campground;Integrated Security=True";
@@ -63,47 +63,47 @@ namespace Capstone
                 }
             }
         }
-      
-		private static void PrintCommands()
-		{
-			Console.WriteLine("Select a Command");
-			Console.WriteLine("1) View Campgrounds");
-			Console.WriteLine("2) Search for Reservation");
-			Console.WriteLine("3) Return to Previous Screen");
-		}
 
-		/// <summary>
-		/// Displays all campgrounds
-		/// </summary>
-		/// <param name="park"></param>
-		private static void DisplayAllCampGrounds(Park park)
+        private static void PrintCommands()
         {
-			Console.Write("Name".PadLeft(7).PadRight(26));
-			Console.Write("Open".PadLeft(6));
-			Console.Write("Close".PadLeft(11));
-			Console.WriteLine("Daily Fee".PadLeft(18));
+            Console.WriteLine("Select a Command");
+            Console.WriteLine("1) View Campgrounds");
+            Console.WriteLine("2) Search for Reservation");
+            Console.WriteLine("3) Return to Previous Screen");
+        }
+
+        /// <summary>
+        /// Displays all campgrounds
+        /// </summary>
+        /// <param name="park"></param>
+        private static void DisplayAllCampGrounds(Park park)
+        {
+            Console.Write("Name".PadLeft(7).PadRight(26));
+            Console.Write("Open".PadLeft(6));
+            Console.Write("Close".PadLeft(11));
+            Console.WriteLine("Daily Fee".PadLeft(18));
 
             foreach (Campground campground in park.Campgrounds)
             {
-				Console.WriteLine("#{0,-2}{1,-25}{2,-10}{3,-10}{4,10}",
-					campground.CampgroundID,
-					campground.Name,
-					ToMonthName(campground.OpeningMonth),
-					ToMonthName(campground.ClosingMonth),
-					campground.DailyFee.ToString("C2"));
+                Console.WriteLine("#{0,-2}{1,-25}{2,-10}{3,-10}{4,10}",
+                    campground.CampgroundID,
+                    campground.Name,
+                    ToMonthName(campground.OpeningMonth),
+                    ToMonthName(campground.ClosingMonth),
+                    campground.DailyFee.ToString("C2"));
             }
 
         }
-        
+
         /// <summary>
         /// Converts the numerical reprentation of a month to the string name 1 = "January" and so on.
         /// </summary>
         /// <param name="month">The numerical representation of the mom</param>
         /// <returns></returns>
-		private static string ToMonthName(int month)
-		{
-			DateTime date = new DateTime(2018, month, 1);
-			return date.ToString("MMMM");
-		}
-	}
+        private static string ToMonthName(int month)
+        {
+            DateTime date = new DateTime(2018, month, 1);
+            return date.ToString("MMMM");
+        }
+    }
 }

@@ -10,7 +10,7 @@ namespace Capstone.Models
     /// Class representing a campsite
     /// </summary>
 	public class Site
-	{
+    {
         /// <summary>
         /// The ID of a given site in a campground.
         /// </summary>
@@ -45,5 +45,5 @@ namespace Capstone.Models
         /// A bool representing if the park has access to utilities. 
         /// </summary>
 		public bool Utilities { get; set; }
-	}
+    }
 }

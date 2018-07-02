@@ -46,7 +46,7 @@ namespace Capstone
 
                     cmd = new SqlCommand("SELECT MAX(reservation_id) FROM reservation", conn);
                     confirmationId = Convert.ToInt32(cmd.ExecuteScalar());
-                 }
+                }
             }
             catch (SqlException ex)
             {

@@ -8,17 +8,17 @@ using Capstone.Models;
 
 namespace Capstone.DAL
 {
-	public class SiteSqlDAL
-	{
-		private string ConnectionString;
+    public class SiteSqlDAL
+    {
+        private string ConnectionString;
 
-		public SiteSqlDAL(string dbConnectionString)
-		{
-			this.ConnectionString = dbConnectionString;
-		}
+        public SiteSqlDAL(string dbConnectionString)
+        {
+            this.ConnectionString = dbConnectionString;
+        }
 
-		public void GetSiteInfo(Park park)
-		{
+        public void GetSiteInfo(Park park)
+        {
             foreach (var campground in park.Campgrounds)
             {
                 try
@@ -54,6 +54,6 @@ namespace Capstone.DAL
                     Console.WriteLine(ex.Message);
                 }
             }
-		}
-	}
+        }
+    }
 }
